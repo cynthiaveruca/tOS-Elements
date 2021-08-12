@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="NimbusSansL/nimbus-L.css">
+    <link rel="stylesheet" href="globals.css">
+    <style>
+        body {
+            /*background-image: url("display_screen_large_2x.jpg");*/
+        }
+        * {
+            font-family: "Inter", sans-serif;
+        }
+        .orange-paint {
+            background-image: linear-gradient(90deg, #d5816d, #d37f6c);
+            color: rgba(247 243 240 .7);
+        }
+        .st {
+            border: Solid 1px #c4c4c4;
+            box-shadow: 0 1px 5px 1px rgb(170 170 170 / 50%);
+            display: inline-flex;
+            border-radius: 4px;
+            flex-direction: column;
+            height: 130px;
+        }
+        .st-Path {
+            border-radius: 3px 3px 0 0;
+            height: 18px;
+            user-select: none;
+            z-index: 1;
+            box-shadow: inset 0px 1px 0 0px rgba(255,255,255,.5), 0 1px 0 0 rgba(134, 134, 134, .5), 0 1px 2px rgba(0,0,0,.5);
+            display: inline-flex;
+            background: -moz-linear-gradient(50% 100% 90deg,rgba(244, 244, 244, 1) 0%,rgba(237, 237, 237, 1) 100%);
+            background: -webkit-linear-gradient(
+                    90deg, rgba(244, 244, 244, 1) 0%    , rgba(237, 237, 237, 1) 100%);
+            background: -webkit-gradient(linear,50% 100% ,50% 0% ,color-stop(0,rgb(244, 244, 244) ),color-stop(1,rgb(237, 237, 237) ));
+            background: -o-linear-gradient(90deg, rgba(244, 244, 244, 1) 0%, rgba(237, 237, 237, 1) 100%);
+            background: -ms-linear-gradient(90deg, rgba(244, 244, 244, 1) 0%, rgba(237, 237, 237, 1) 100%);
+            justify-content: center;
+            font-size: 14px;
+            align-items: center;
+            padding: 1px 10px 1px 10px;
+            font-weight: 600;
+            text-shadow: 0 1px 1px rgb(245,245,245);
+            color: rgb(104, 104, 104);
+        }
+        .st-Path-dark {
+            background: -webkit-gradient(linear,50% 100% ,50% 0% ,color-stop(0, rgb(85, 85, 85)),color-stop(1, rgb(29, 29, 29)));
+            color: rgba(255,255,255,.8) !important;
+            text-shadow: 0 0 1px #000;
+        }
+        .st-Path-cont {
+            user-select: none;
+            padding: 5px;
+            box-sizing: border-box;
+            justify-content: center;
+            border-top: none;
+            height: 100%;
+            background: transparent;
+        }
+        .crumb {
+            background-color: rgba(60, 63, 65, 0.85);
+            margin: 10px;
+            width: 2px;
+            height: 15px;
+            animation: blink .8s ease infinite;
+        }
+        #window-switcher-trigger-top {
+            top: 0;
+            left: 0;
+        }
+        .switcher-trigger {
+            position: fixed;
+            width: 14px;
+            z-index: 98;
+            height: 10px;
+            opacity:0;
+        }
+        #window-switcher-trigger-bottom {
+            bottom: 0;
+            left: 0;
+        }
+        #window-switcher-panel {
+            color: var(--grey-300);
+            text-align: center;
+            position: fixed;
+            left: -155px;
+            top: 0;
+            width: 150px;
+            border-right: Solid 1px var(--grey-700);
+            box-shadow: 2px 0 5px 1px rgba(0,0,0,1);
+            z-index: 99;
+            height: 103%;
+            padding: 6% 0;
+            box-sizing: border-box;
+            align-self: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            background-image: url("download.png");
+            transition: transform .5s cubic-bezier(0, 0.72, 0.11, 1.02);
+        }
+        #window-switcher-panel h4 {
+            padding: 7px 0;
+            text-shadow: 0 0 1px var(--grey-700);
+            font-weight: 500;
+            background-image: linear-gradient(0deg, rgba(90,90,90,.2) 5%, transparent 100%);
+            box-shadow: inset 0 -1px 1px rgba(255,255,255,.3), 0 2px 1px rgba(0,0,0,.5);
+            line-height: 1;
+        }
+        .row {
+            background-color: var(--blue-000);
+        }
+        .rowDef {
+            background-color: var(--grey-100);
+        }
+        .row td, .row th {
+            box-sizing: border-box;
+            padding: 2px 10px;
+        }
+        .row th {
+            position: relative;
+            z-index:9;
+            color: var(--grey-700);
+            background-color: var(--grey-000);
+            box-shadow: 0 1px 2px rgba(0,0,0,.5);
+        }
+        .tabDef {
+            background-color: var(--grey-300);
+            width: 100%;
+            box-sizing: border-box;
+            margin: 10px;
+        }
+        .Toolbar___Titlebar {
+            background-image: -moz-linear-gradient( 90deg, rgb(61,61,61) 0%, rgb(68,68,68) 40%, rgb(75,75,75) 100%);
+            background-image: -webkit-linear-gradient( 90deg, rgb(61,61,61) 0%, rgb(68,68,68) 40%, rgb(75,75,75) 100%);
+            background-image: -ms-linear-gradient( 90deg, rgb(61,61,61) 0%, rgb(68,68,68) 40%, rgb(75,75,75) 100%);
+            /*box-shadow: 0 -1px 0 1px rgba(90,90,90,1);*/
+            z-index: 254;
+            text-shadow: 0 1px 1px #000;
+            color: var(--grey-100) !important;
+        }
+        .Toolbar___Titlebar .window-close-button {
+            border-radius: 0;
+            box-shadow: 0 0 0 1px rgba(0,0,0,.5), inset 0 0 2px 1px rgba(0 0 0 / 10%);
+        }
+        .Toolbar___Titlebar .window-close-button:active {
+            box-shadow: 0 0 0 1px rgba(0,0,0,.4), inset 0 1px 2px 1px rgb(0 0 0 / 50%);
+        }
+    </style>
+    <link rel="stylesheet" href="window.css">
+</head>
+<body>
+<div id="window-switcher-trigger-top" class="switcher-trigger"></div>
+<div id="window-switcher-trigger-bottom" class="switcher-trigger"></div>
+<div id="window-switcher-panel">
+    <h4>Frequent</h4>
+</div>
+<div class="st window">
+    <div class="st-Path title-fr orange-paint">
+        <div class="windowIcon">
+        </div>
+        <div class="windowInfo">
+            <img src="Untitled-5.png" width="18px">
+            <div class="windowTitle">Untitled WebApp</div>
+        </div>
+        <div class="windowActions">
+        <span class="window-close-button"></span>
+        </div>
+    </div>
+    <div class="st-Path-cont" style="display: flex; align-items: center ;justify-content: center; flex-direction: column">
+        <input type="text" class="workonfocus native-textbox">
+        <button class="button realtime-button">Check</button>
+        <div class="crumb"></div>
+        <table cellspacing="1px" class="tabDef">
+            <tbody>
+    <tr class="row">
+        <th>File Name</th>
+        <th>Error Code</th>
+    </tr>
+    <tr class="row rowDef">
+        <td>xcvgc.gcc</td>
+        <td>301 - Forbidden</td>
+    </tr>
+    <tr class="row">
+        <td>xcfvv.gcc</td>
+        <td>301 - Forbidden</td>
+    </tr>
+    <tr class="row rowDef">
+        <td>dgcct.gcc</td>
+        <td>408 - Timeout</td>
+    </tr>
+    </tbody>
+        </table>
+        <input onfocus="autoFill()" onfocusout="autoFillOut()" class="workonfocus native-textbox" type="password">
+        <div class="dialogBoxOcean" id="passbox"></div>
+    </div>
+</div>
+<div class="st window">
+    <div class="st-Path title-fr">
+        <div class="windowIcon"></div>
+
+    <div class="windowInfo">
+        <div class="windowTitle">My Dialog</div>
+    </div>
+    <div class="windowActions">
+        <span class="window-close-button"></span>
+    </div>
+    </div>
+    <div class="st-Path-cont">
+        <h4 style="padding:  10px; margin: 0;">This is a dialog to display additional information</h4>
+        <div class="dialogActionButtonPanel">
+            <button class="button">Cancel</button>
+            <button class="button">OK</button>
+        </div>
+    </div>
+</div>
+<div class="st window">
+    <div class="st-Path title-fr">
+        <div class="windowIcon">
+            <img src="quickfixOffBulb@2x.png" alt="windowIcon" width="16">
+        </div>
+        <div class="windowInfo">
+            <div class="windowTitle">My Dialog</div>
+        </div>
+        <div class="windowActions">
+            <span class="window-close-button"></span>
+        </div>
+    </div>
+    <div class="st-Path-cont" style="display: flex; align-items: center ;justify-content: center; flex-direction: column; background-color: var(--yellow-000)">
+        <div class="snippet important">
+            <div class="snippet-title">Stuff to do</div>
+            <div class="snippet-content">
+                Check for Recievings
+            </div>
+        </div>
+        <div class="snippet">
+            <div class="snippet-title">Friends to make</div>
+            <div class="snippet-content">
+                None of them
+            </div>
+        </div>
+        <div class="snippet">
+            <div class="snippet-title">Places to Visit</div>
+            <div class="snippet-content">
+                No places to visit
+            </div>
+        </div>
+        <div class="box Popover_Background_Down___Center"></div>
+    </div>
+    <div class="message box actionNotification">
+        <div class="playbackNavButton">
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.38 12.63">
+                <polygon class="cls-1" points="12.38 12.63 2.33 6.16 12.38 0 12.38 12.63"/><rect class="cls-1" x="1337.94" y="375.5" width="2.12" height="12.4" transform="translate(1340.06 387.89) rotate(180)"/>
+            </svg>
+        </div>
+        <div class="playbackStatus">
+            <!--        <img class="aNotif-albumArt" src="img.png" height="36">-->
+            <div>
+                <div class="aNotif-title">Track Title</div>
+                <div class="aNotif-Subtitle">Artist</div>
+            </div>
+        </div>
+        <div class="playbackNavButton">
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.38 12.63">
+                <polygon class="cls-1" points="0 0 10.04 6.48 0 12.63 0 0"/><rect class="cls-1" x="10.26" y="0.24" width="2.12" height="12.4"/>
+            </svg>
+        </div>
+    </div>
+<script>
+    var windowPanel = document.querySelector("#window-switcher-panel");
+    var windowSwitcherTop = document.querySelector("#window-switcher-trigger-top");
+    var windowSwitcherBottom = document.querySelector("#window-switcher-trigger-bottom");
+    [windowSwitcherTop, windowSwitcherBottom].forEach(function (el) {
+        el.addEventListener( "mouseenter", function() {
+            windowPanel.style.transform = "translateX(155px)";
+        });
+    });
+    windowPanel.addEventListener("mouseout", function() {
+        setTimeout(function () {
+            console.log("mouse exits from window panel");
+            windowPanel.style.transform = "translateX(0)";
+        }, 1200);
+    });
+    windowPanel.addEventListener("mouseenter", function () {
+        console.log("mouse enters in windowPanel");
+        windowPanel.style.transform = "translateX(155px)";
+    }, true);
+    var realTimeButton = document.querySelectorAll(".realtime-button");
+    realTimeButton.forEach(function (el) {
+        el.addEventListener("click", function (evt) {
+            el.innerText = "working on it...";
+            el.disabled = true;
+            setTimeout(function () {
+                el.innerText = "failed!";
+                el.classList.add("button-error");
+            }, 2000);
+            setTimeout(function () {
+                el.innerText = "Retry";
+                el.classList.remove("button-error");
+                el.disabled = false;
+                el.focus();
+                el.addEventListener("click", function () {
+                    location.reload();
+                })
+            }, 3000)
+        })
+    });
+
+    /**/
+    var passbox = document.getElementById("passbox");
+    function autoFill() {
+        passbox.innerHTML += `
+        <div class="dialogBox">
+                <h4 class="dBoxtitle">Use Passkeys</h4>
+                <button class="dBoxContAction mixopt">ivy.truong@mix.com</button>
+                <button class="dBoxContAction">ivy.truong@gmail.com</button>
+            </div>
+    `;
+    }
+    function autoFillOut() {
+        passbox.innerHTML = "";
+    }
+</script>
+</body>
+</html>

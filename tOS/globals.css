@@ -1,0 +1,468 @@
+@import "colorConstants.css";
+:root {
+    --focus-ring-color : var(--primary-100);
+    --desktop-home-color: #4154d6;
+}
+body {
+    cursor: url("./cursor.png"), default !important;
+}
+/*Notification Styles*/
+.actionNotification {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 999;
+    top: 5%;
+    right: 5%;
+    padding: 0 !important;
+    border-radius: 7px;
+    backdrop-filter: blur(3px);
+    /*background-image: url("download.png");*/
+}
+.actionNotification .playbackStatus {
+    margin: 10px;
+    display: flex;
+}
+.playbackStatus .aNotif-albumArt {
+    margin: 0 10px 0 0;
+}
+.actionNotification .aNotif-title {
+    font-weight: 500;
+    font-size: 17px;
+    color: inherit;
+}
+.actionNotification .aNotif-Subtitle {
+    font-weight: 500;
+    color: var(--grey-300);
+    font-size: 14px;
+}
+.playbackStatus div div {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    mix-blend-mode: normal;
+    max-width: 220px;
+}
+.playbackNavButton {
+    width: 15px;
+    padding: 20px 22px;
+}
+.playbackNavButton:hover {
+    background-color: rgba(90,90,90,.5);
+}
+.playbackNavButton:active {
+    animation: defaultItemClick .3s ease;
+}
+
+/*
+ .dialogBoxOcean
+    *usage: gives .dialogBox animation some perspective
+*/
+.dialogBoxOcean {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    perspective: 200px;
+}
+.dialogBox {
+    transform-origin: right top;
+    transform-style: preserve-3d;
+    animation: riseDipped .3s ease-in-out;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10px 10px 10px;
+    border: Solid 1px var(--grey-500);
+    background-color: var(--grey-100);
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 10px 10px rgba(0,0,0,.6);
+    z-index:9;
+}
+.dialogBox ul {
+    display: flex;
+    margin: 10px 0 0 0;
+    flex-direction: column;
+    padding: 0;
+}
+.dialogBox ul li {
+    margin: 0;
+    font-size: 14px;
+    padding: 2px 15px;
+    align-items: center;
+}
+.dialogBox ul li::marker {
+    content: '';
+    display: none;
+}
+.dBoxtitle {
+    font-size: 12px;
+    margin: 0 5px;
+    display: flex;
+    background-color: var(--grey-300);
+    padding: 2px 10px;
+    text-align: left;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-weight: 500;
+}
+.dBoxContAction {
+    width:100%;
+    line-height: 1.2;
+    margin-top: 5px;
+    box-sizing: border-box;
+    position: relative;
+    background-color: var(--primary-500);
+    /*background-image: linear-gradient(0deg, var(--yellow-100), var(--yellow-000));*/
+    border-radius: 3px;
+    color: var(--yellow-000);
+    font-weight: 400;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: none;
+    padding: 4px 24px;
+}
+.mixopt {
+    padding-right: 45px;
+}
+.mixopt:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    padding: 0 3px;
+    border-radius: 0 4px 4px 0;
+    top: 0;
+    width: 30px;
+    height: 100%;
+    background-image: url("mixicon.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var(--primary-300);
+
+}
+*:focus {
+    outline-offset: -1px;
+    outline: var(--focus-ring-color) solid 4px;
+    animation: jumpFocus .17s ease-in-out;
+}
+button:active {
+    animation: zoomActive .2s ease-in-out;
+}
+.button {
+    width: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    height: 22px;
+    line-height: 1;
+    padding: 0 15px;
+    text-align: center;
+    justify-content: center;
+    color: rgba(0,0,0,.7);
+    cursor: inherit;
+    font-size: 14px;
+    user-select: none;
+    font-weight: 600;
+    border: Solid 1px rgba(0,0,0,.2);
+    border-radius: 3px;
+    box-shadow:inset 0 0 2px rgba(255,255,255,.5), 0 1px 2px rgba(0,0,0,.3);
+    color: azure;
+    text-shadow: 0 1px 1px rgba(0,0,0,.4);
+    background-color: var(--primary-700);
+    /*background-image: linear-gradient(#cd5216, #ac3d03);*/
+    transition: background-image 0.2s ease-in-out;
+}
+.button:disabled {
+    background-image: linear-gradient(0deg, var(--grey-100), var(--grey-300));
+    text-shadow: 0 0 1px var(--grey-000);
+    color: var(--grey-500);
+}
+.button-error:disabled {
+    color: var(--red-500) !important;
+}
+/*A container to perfectly align the action buttons in a dialog box. for eg. "OK", "Cancel" etc.*/
+.dialogActionButtonPanel {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 10px 10px 0;
+    height: 100%;
+    justify-content: flex-end;
+    column-gap: 10px;
+}
+/* TODO --> SoftBox API*/
+.softBox-button {
+    margin: 3px 0;
+    user-select: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 14px;
+    position: relative;
+    z-index: 3;
+    border: none;
+    line-height: 1.2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 10px 2px 10px;
+}
+.softBox-primary {
+    font-weight: 600;
+}
+.softBox-primary:active, .button:active {
+    animation: zoomActive .5s ease-in-out;
+}
+.softBox-selected:before {
+    background-color: var(--primary-700) !important;
+    /*background-image: linear-gradient(0deg, var(--primary-700), var(--primary-500)) !important;*/
+}
+.softBox-selected {
+    color: var(--grey-100);
+}
+.softBox-button:hover:before {
+    /*the variable --zoomHoverColor shall be defined in the parent element/ window element styles
+        to make it adaptable to background
+    */
+    background-color: var(--zoomHoverColor);
+    animation: zoomHover .1s ease-in-out;
+}
+.softBox-button:before {
+    color: transparent;
+    padding: 0 10px;
+    position: absolute;
+    top: -1px;
+    z-index: -1;
+    background-color: transparent;
+    content: attr(inner-text);
+    height: 24px;
+    line-height: 1.3;
+    border-radius: 3px;
+}
+
+.workonfocus {
+    cursor: url("./textcur-01.png"), default;
+    font-family: "Nimbus Sans L", sans-serif;
+    border: none;
+    min-width: 3ch;
+    background-color: rgba(255,255,255,.9);
+    color: rgba(0,0,0,.6);
+    font-weight: 600;
+    box-sizing: border-box;
+    border-radius: 1px;
+    text-shadow: 1px 0 1px rgba(255,255,255,.5);
+    height: 20px;
+    align-items:center;
+    align-self: center;
+    display: inline-flex;
+    padding: 0 4px;
+    font-size: 17px;
+    transition: width 1s ease-in-out;
+    box-shadow: none;
+}
+.workonfocus:focus {
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.13), 0 0 0 1px rgba(0,0,0,.3);
+}
+*::selection {
+    background-color: var(--primary-000);
+}
+
+.native-textbox {
+    padding: 0 5px;
+    max-width:150px;
+    overflow: hidden;
+    line-height:1.1;
+    text-overflow: ellipsis;
+    margin-right: 3px;
+    box-shadow:inset 0 0 1px rgba(0,0,0,.5), 0 0 0 1px rgba(0,0,0,.2) !important;
+}
+
+
+.box {
+    border-radius: 3px;
+    box-sizing: border-box;
+    margin: 10px;
+    letter-spacing: -.3px;
+    line-height: 1;
+    display: flex;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Nimbus Sans L", sans-serif;
+    box-shadow: inset 0 0 1px 1px rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.9);
+}
+.preview-tooltip {
+    top: 5px;
+    left: 5px;
+    width: auto;
+    position: absolute;
+    z-index: 999;
+    padding: 5px 10px 6px 10px;
+    color: rgba(0,0,0,.7);
+    border: Solid 1px #e2941d;
+    background-color: #f8d394;
+}
+
+.preview-tooltip span.preview-desc {
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1;
+    margin-top: 2px;
+    font-family: "Nimbus Sans L", sans-serif;
+    font-size: 12px;
+}
+.cls-1 {
+    fill: #fff;
+}
+.message {
+    /*color: #0050a7;*/
+    color: var(--grey-100);
+    background-color: rgba(0,0,0,.7);
+    padding:  10px 20px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    border:  Solid 1px rgba(0,0,0,.9);
+    text-shadow: 0 0 1px rgba(0, 0, 0, .6);
+}
+.red {
+    background-color: var(--red-000);
+    color: var(--red-700);
+}
+.snippet {
+    background-color: var(--grey-000);
+    box-shadow: 0 1px 1px rgba(0,0,0,.8), 0 0 1px rgba(0,0,0,.4);
+    display: flex;
+    flex-direction: column;
+    border-radius: 3px;
+    padding: 5px;
+}
+.important {
+    position: relative;
+}
+.important::before {
+    content: '';
+    width:12px;
+    height:12px;
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    background-image: url("db_muted_temporary_breakpoint.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.snippet .snippet-title {
+    font-weight: 500;
+    font-size:14px;
+    border-bottom: Solid 2px var(--yellow-700);
+}
+.snippet .snippet-content {
+    font-size: 13px;
+    font-weight: 400;
+}
+/*Global Animations*/
+@keyframes defaultItemClick {
+    0% {
+        transform: scale(.96);
+        opacity: .9;
+    }
+    20% {
+        transform: scale(.97);
+        opacity: .8;
+    }
+    40% {
+        transform: scale(.98);
+        opacity: .7;
+    }
+    60% {
+        transform: scale(.99);
+        opacity: .6;
+    }
+    70% {
+        opacity: .8;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+@keyframes zoomActive {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    20% {
+        transform: scale(1.2);
+        opacity: 0.2;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes zoomHover {
+    0% {
+        transform: scale(2);
+        opacity:  0;
+    }
+    20% {
+        transform: scale(1.4);
+        opacity:  .4;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+@keyframes blink {
+    0% {
+        opacity: 0.0;
+    }
+    50% {
+        opacity: 0.0;
+    }
+}
+@keyframes radio{
+    0%{-webkit-box-shadow:0 0 0 0 #07c,inset 0 0 0 0 #fff;-moz-box-shadow:0 0 0 0 #07c,inset 0 0 0 0 #fff;box-shadow:0 0 0 0 #07c,inset 0 0 0 0 #fff}
+    50%{-webkit-box-shadow:0 0 2px 3px rgba(0,119,204,.5),inset 0 0 0 3px #fff;-moz-box-shadow:0 0 2px 3px rgba(0,119,204,.5),inset 0 0 0 3px #fff;box-shadow:0 0 2px 3px rgba(0,119,204,.5),inset 0 0 0 3px #fff}
+    100%{-webkit-box-shadow:0 0 0 0 #07c,inset 0 0 0 3px #fff;-moz-box-shadow:0 0 0 0 #07c,inset 0 0 0 3px #fff;box-shadow:0 0 0 0 #07c,inset 0 0 0 3px #fff}
+}
+@keyframes riseDipped {
+    0% {
+        opacity: 0.5;
+        transform: rotate3d(1,0,0, 90deg)
+    }
+    100% {
+        opacity: 1;
+        transform: rotate3d(0,0,0, 0deg)
+    }
+}
+@keyframes jumpFocus{
+    0% {
+        outline-width: 30px;
+        outline-offset: 5px;
+        outline-color: var(--primary-000);
+    }
+    20% {
+        outline-width: 5px;
+    }
+    100% {
+        outline-offset: -1px;
+        outline-width: 4px;
+        outline-color: var(--focus-ring-color);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: rgba(0,0,0,.7);
+    }
+    :root {
+        --focus-ring-color: rgba(255, 140, 145,0.5);
+    }
+}

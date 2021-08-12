@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Input components</title>
+    <link rel="stylesheet" href="globals.css">
+    <link rel="stylesheet" href="NimbusSansL/nimbus-L.css">
+    <style>
+        * {
+            font-family: "Inter" ,"Nimbus Sans L", sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #poolRipple {
+            position: fixed;
+            left: -5px;
+            top: -5px;
+            display: flex;
+        }
+        #poolRipple::after {
+            content: '';
+            z-index:-1;
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 0 2px 2px var(--grey-500);
+            animation: poolRipple .5s ease infinite;
+            border-radius: 100%;
+        }
+        #poolRipple::before {
+            content: '';
+            z-index: -1;
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            box-shadow: 0 0 2px 2px var(--grey-500);
+            animation: poolRipple .4s ease infinite;
+            animation-delay: .05s;
+            border-radius: 100%;
+        }
+        @keyframes poolRipple {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <input id="entryField" type="name" class="workonfocus native-textbox" autofocus>
+    <div class="dialogBoxOcean">
+        <div class="dialogBox">
+            <h4 class="dBoxtitle">Suggestions</h4>
+            <div style="margin: 0; width: 100%;" id="entryDialog">
+            </div>
+        </div>
+    </div>
+    <!--<div id="poolRipple" style="width: 20px; height: 20px"></div>-->
+</body>
+<script>
+    /*let poolRipple = document.getElementById("poolRipple");
+    document.onmousemove = function (evt) {
+        console.log("clicked !!!");
+        let x = evt.clientX;
+        let y = evt.clientY;
+        poolRipple.style.top = y + "px";
+        poolRipple.style.left = x + "px";
+    };*/
+
+    /*DOM Constants*/
+    let entryField = document.getElementById("entryField");
+    let entryDialog = document.getElementById("entryDialog");
+
+    /*Data*/
+    let xObj = new XMLHttpRequest();
+    xObj.overrideMimeType("application/json");
+    xObj.open("GET", "./data.json", true);
+    xObj.send();
+    xObj.addEventListener("load", recieveData);
+    function recieveData() {
+        if (xObj.readyState === 4 && xObj.status === 200) {
+            console.log("json imported successfully!");
+        } else {
+            console.log("an error occured while loading json!");
+        }
+    }
+
+    /*Event Listeners*/
+    function loadData(data) {
+        let DATA = JSON.parse(data);
+        /*The Original data*/
+        let harvestedData = DATA.data.suggestions;
+        putonDialog(harvestedData);
+    }
+    /*Functions*/
+    entryField.addEventListener("keypress", function (evt) {
+            //loadData(xObj.responseText);
+            console.log(evt.keyCode);
+            putonDialog(evt.key);
+    });
+    entryField.addEventListener("keydown", function (evt) {
+        let key = evt.keyCode || evt.key;
+        if (key === 8) {
+            removeFromDialog();
+            console.log("pressed");
+        }
+    });
+
+    let dBoxContAction = document.createElement("div");
+    dBoxContAction.classList.add("dBoxContAction");
+    function putonDialog(data) {
+        entryDialog.appendChild(dBoxContAction);
+        dBoxContAction.innerHTML += data;
+        dBoxContAction.title += data;
+        /*for (let i=0; i < data.length; i++) {
+            console.log(data[i]);
+            entryDialog.innerHTML = `
+                    <button class="dBoxContAction">${data[i]}</button>
+                `
+        }*/
+
+    }
+    function removeFromDialog() {
+        dBoxContAction.innerHTML = "";
+    }
+</script>
+</html>

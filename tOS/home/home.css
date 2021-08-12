@@ -1,0 +1,8 @@
+#fr {
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+#fr-cont {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+}
